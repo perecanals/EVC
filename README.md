@@ -82,7 +82,7 @@ pip install -r requirements.txt
 
 ### Set up the `EVC_root` variable
 
-Also, make sure to create an environment variable (`EVC_root`) with the path to your root directory. To do that, open your `~/.bashrc`/`~/.zshrc` (you can use a built-in editor like `nano` or if you are on Linux ior MacOS you can just run `open ~/.bashrc`) file and add this line to the file:
+Also, make sure to create an environment variable (`EVC_root`) with the path to your root directory. To do that, open your `~/.bashrc`/`~/.zshrc` (you can use a built-in editor like `nano` or if you are on Linux or MacOS you can just run `open ~/.bashrc`) file and add this line to the file:
 
 ```bash
 export EVC_root="/path/to/your/root"
