@@ -1,6 +1,6 @@
 # Extracranial vessel labelling
 
-This repository introduces a vessel labelling framework for a private dataset composed of 561 graphs, derived from stroke patients from Hospital Vall d'Hebron in Barcelona, Spain. Graphs themselves are created from extracting single centerline maps from vascular segemntations computed from full head-and-neck CTA images of patients suffering from acute ischemic stroke. Images are retrieved in the acute phase.
+This repository introduces a vessel labelling framework for a private dataset composed of 561 graphs, derived from stroke patients from Hospital Vall d'Hebron in Barcelona, Spain. Graphs themselves are created from extracting single centerline maps from vascular segmentations computed from full head-and-neck CTA images of patients suffering from acute ischemic stroke. Images are retrieved in the acute phase.
 
 ![Graph example image](misc/graph_image.jpg)
 
