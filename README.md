@@ -12,26 +12,35 @@ The segments were classified in one of 14 classes with anatomical meaning:
 
 <table>
   <tr>
-    <td>
-* 0: other
-* 1: AA
-* 2: BT
-* 3: RCCA
-* 4: LCCA
-* 5: RSA
-* 6: LSA
-    </td>
-    <td>
-* 7: RVA
-* 8: LVA
-* 9: RICA
-* 10: LICA
-* 11: RECA
-* 12: LECA
-* 13: BA
-    </td>
+    <td>0: other</td>
+    <td>7: RVA</td>
+  </tr>
+  <tr>
+    <td>1: AA</td>
+    <td>8: LVA</td>
+  </tr>
+  <tr>
+    <td>2: BT</td>
+    <td>9: RICA</td>
+  </tr>
+  <tr>
+    <td>3: RCCA</td>
+    <td>10: LICA</td>
+  </tr>
+  <tr>
+    <td>4: LCCA</td>
+    <td>11: RECA</td>
+  </tr>
+  <tr>
+    <td>5: RSA</td>
+    <td>12: LECA</td>
+  </tr>
+  <tr>
+    <td>6: LSA</td>
+    <td>13: BA</td>
   </tr>
 </table>
+
 
 ### Data availability
 
