@@ -1,0 +1,6 @@
+matplotlib
+networkx
+numpy
+sklearn
+torch
+torch-geometric
