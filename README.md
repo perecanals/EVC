@@ -56,7 +56,7 @@ By default, executing the main script will perform a training and testing of the
 python main.py
 ```
 
-Please, play around with the arguments of `main.py` to observe the possibilities of the dataset.
+Please, play around with the arguments of `main.py` to observe the possibilities of the repo.
 
 ### `root` directory
 
