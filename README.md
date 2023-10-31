@@ -2,7 +2,11 @@
 
 This repository introduces a vessel labelling framework for a private dataset composed of 561 graphs, derived from stroke patients from Hospital Vall d'Hebron in Barcelona, Spain. Graphs themselves are created from extracting single centerline maps from vascular segemntations computed from full head-and-neck CTA images of patients suffering from acute ischemic stroke. Images are retrieved in the acute phase.
 
+![Graph example image](misc/graph_image.jpg)
+
 The goal is to develop an automatic, robust model for vessel labelling. To accomplish this, we performed a node classification task using a [Graph U-Net](https://arxiv.org/abs/1905.05178).
+
+![Graph U-Net structure](misc/graph_unet_image.jpg)
 
 ## Data description
 
