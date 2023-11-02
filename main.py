@@ -14,10 +14,7 @@ def main(root, args):
     print("Running training and testing for extracranial vessel labelling\n")
 
     # Read device
-    if torch.cuda.is_available():
-        device = torch.device("cuda")
-    else:
-        device = torch.device("cpu")
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     #################################### Dataset organization ############################################
     # Define pre-transforms (applied to the graph before batching, regardless of training or testing)
@@ -62,7 +59,7 @@ def main(root, args):
 if __name__ == "__main__":
     import os, sys
     import argparse
-    sys.path.append("/Users/pere/opt/Arterial/development/updating_coordinates_labelling")
+    sys.path.append("/path/to/EVC")
 
     root = os.environ["EVC_root"]
 
