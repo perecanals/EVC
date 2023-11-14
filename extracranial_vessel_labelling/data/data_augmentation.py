@@ -11,23 +11,23 @@ def get_transforms(device):
     
     Returns
     -------
-    pre_transforms : torch_geometric.transforms.Compose
+    pre_transform : torch_geometric.transforms.Compose
         Pre-transforms to apply to the dataset.
-    train_transforms : torch_geometric.transforms.Compose
+    train_transform : torch_geometric.transforms.Compose
         Dynamic transforms to apply for data augmentation during training.
-    test_transforms : torch_geometric.transforms.Compose
+    test_transform : torch_geometric.transforms.Compose
         Dynamic transforms to apply during testing.
     """
     # Define transforms
-    pre_transforms = Compose([
+    pre_transform = Compose([
         RadiusGraph(r = 0.5, max_num_neighbors = 10),
         ToDevice(device)
     ])
-    train_transforms = Compose([
+    train_transform = Compose([
         ToDevice(device)
     ])
-    test_transforms = Compose([
+    test_transform = Compose([
         ToDevice(device)
     ])
 
-    return pre_transforms, train_transforms, test_transforms
+    return pre_transform, train_transform, test_transform
