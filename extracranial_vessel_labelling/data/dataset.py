@@ -324,21 +324,21 @@ def generate_EVC_dataset_json(
     total_number_of_nodes = 0
     total_number_of_edges = 0
 
-    graph_featues_array = np.zeros((num_graph_features, 0))
-    node_featues_array = np.zeros((num_node_features, 0))
-    edge_featues_array = np.zeros((num_edge_features, 0))
+    graph_features_array = np.zeros((num_graph_features, 0))
+    node_features_array = np.zeros((num_node_features, 0))
+    edge_features_array = np.zeros((num_edge_features, 0))
 
     for example in raw_data_list:
         total_number_of_nodes += len(example.nodes)
         total_number_of_edges += len(example.edges)
         if name_graph_features is not None:
-            graph_featues_array = np.concatenate((graph_featues_array, np.expand_dims(example.graph[name_graph_features], axis = 1)), axis=1)
+            graph_features_array = np.concatenate((graph_features_array, np.expand_dims(example.graph[name_graph_features], axis = 1)), axis=1)
         if name_node_features is not None:
             for node in example.nodes:
-                node_featues_array = np.concatenate((node_featues_array, np.expand_dims(example.nodes[node][name_node_features], axis = 1)), axis=1)
+                node_features_array = np.concatenate((node_features_array, np.expand_dims(example.nodes[node][name_node_features], axis = 1)), axis=1)
         if name_edge_features is not None:
             for src, dst in example.edges:
-                edge_featues_array = np.concatenate((edge_featues_array, np.expand_dims(example[src][dst][name_edge_features], axis = 1)), axis=1)
+                edge_features_array = np.concatenate((edge_features_array, np.expand_dims(example[src][dst][name_edge_features], axis = 1)), axis=1)
 
     average_number_of_nodes = total_number_of_nodes / total_number_of_examples
     average_number_of_edges = total_number_of_edges / total_number_of_examples
@@ -398,24 +398,24 @@ def generate_EVC_dataset_json(
         "num_graph_classes": num_graph_classes,
         "num_node_classes": num_node_classes,
         "num_edge_classes": num_edge_classes,
-        "graph_class_frequencies": graph_class_frequencies.tolist() if len(graph_featues_array) > 0 else None,
-        "node_class_frequencies": node_class_frequencies.tolist() if len(graph_featues_array) > 0 else None,
-        "edge_class_frequencies": edge_class_frequencies.tolist() if len(graph_featues_array) > 0 else None,
-        "mean_graph_features": np.mean(graph_featues_array, axis=1).tolist() if len(graph_featues_array) > 0 else None,
-        "median_graph_features": np.median(graph_featues_array, axis=1).tolist() if len(graph_featues_array) > 0 else None,
-        "std_graph_features": np.std(graph_featues_array, axis=1).tolist() if len(graph_featues_array) > 0 else None,
-        "min_graph_features": np.min(graph_featues_array, axis=1).tolist() if len(graph_featues_array) > 0 else None,
-        "max_graph_features": np.max(graph_featues_array, axis=1).tolist() if len(graph_featues_array) > 0 else None,
-        "mean_node_features": np.mean(node_featues_array, axis=1).tolist() if len(node_featues_array) > 0 else None,
-        "median_node_features": np.median(node_featues_array, axis=1).tolist() if len(node_featues_array) > 0 else None,
-        "std_node_features": np.std(node_featues_array, axis=1).tolist() if len(node_featues_array) > 0 else None,
-        "min_node_features": np.min(node_featues_array, axis=1).tolist() if len(node_featues_array) > 0 else None,
-        "max_node_features": np.max(node_featues_array, axis=1).tolist() if len(node_featues_array) > 0 else None,
-        "mean_edge_features": np.mean(edge_featues_array, axis=1).tolist() if len(edge_featues_array) > 0 else None,
-        "median_edge_features": np.median(edge_featues_array, axis=1).tolist() if len(edge_featues_array) > 0 else None,
-        "std_edge_features": np.std(edge_featues_array, axis=1).tolist() if len(edge_featues_array) > 0 else None,
-        "min_edge_features": np.min(edge_featues_array, axis=1).tolist() if len(edge_featues_array) > 0 else None,
-        "max_edge_features": np.max(edge_featues_array, axis=1).tolist() if len(edge_featues_array) > 0 else None
+        "graph_class_frequencies": graph_class_frequencies.tolist() if len(graph_features_array) > 0 else None,
+        "node_class_frequencies": node_class_frequencies.tolist() if len(graph_features_array) > 0 else None,
+        "edge_class_frequencies": edge_class_frequencies.tolist() if len(graph_features_array) > 0 else None,
+        "mean_graph_features": np.mean(graph_features_array, axis=1).tolist() if len(graph_features_array) > 0 else None,
+        "median_graph_features": np.median(graph_features_array, axis=1).tolist() if len(graph_features_array) > 0 else None,
+        "std_graph_features": np.std(graph_features_array, axis=1).tolist() if len(graph_features_array) > 0 else None,
+        "min_graph_features": np.min(graph_features_array, axis=1).tolist() if len(graph_features_array) > 0 else None,
+        "max_graph_features": np.max(graph_features_array, axis=1).tolist() if len(graph_features_array) > 0 else None,
+        "mean_node_features": np.mean(node_features_array, axis=1).tolist() if len(node_features_array) > 0 else None,
+        "median_node_features": np.median(node_features_array, axis=1).tolist() if len(node_features_array) > 0 else None,
+        "std_node_features": np.std(node_features_array, axis=1).tolist() if len(node_features_array) > 0 else None,
+        "min_node_features": np.min(node_features_array, axis=1).tolist() if len(node_features_array) > 0 else None,
+        "max_node_features": np.max(node_features_array, axis=1).tolist() if len(node_features_array) > 0 else None,
+        "mean_edge_features": np.mean(edge_features_array, axis=1).tolist() if len(edge_features_array) > 0 else None,
+        "median_edge_features": np.median(edge_features_array, axis=1).tolist() if len(edge_features_array) > 0 else None,
+        "std_edge_features": np.std(edge_features_array, axis=1).tolist() if len(edge_features_array) > 0 else None,
+        "min_edge_features": np.min(edge_features_array, axis=1).tolist() if len(edge_features_array) > 0 else None,
+        "max_edge_features": np.max(edge_features_array, axis=1).tolist() if len(edge_features_array) > 0 else None
     }
 
     # Save the json file

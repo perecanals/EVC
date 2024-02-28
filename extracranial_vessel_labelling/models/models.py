@@ -54,7 +54,6 @@ def get_model(args, dataset_description, device = "cpu"):
             depth=args.depth,
             pool_ratios=0.5, 
             sum_res=True, 
-            act=F.relu).to(device
-            )
+            act=F.relu).to(device)
         
     return model, model_name
