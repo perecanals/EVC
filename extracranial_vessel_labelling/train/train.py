@@ -7,7 +7,7 @@ from extracranial_vessel_labelling.utils.metrics import compute_accuracy
 
 import torch
 
-def run_training(root, model, model_name, train_loader, val_loader, total_epochs = 500, learning_rate = 0.01, lr_scheduler = True, device = "cpu", node_class_frequencies = None, fold = None):
+def run_training(root, model, model_name, train_loader, val_loader, loss_function, total_epochs = 500, learning_rate = 0.01, lr_scheduler = True, device = "cpu", fold = None):
     """
     Trainer function for a given model. Thought out for GraphUNet for node classification.
 
@@ -23,6 +23,8 @@ def run_training(root, model, model_name, train_loader, val_loader, total_epochs
         DataLoader for training.
     val_loader : torch_geometric.loader.DataLoader
         DataLoader for validation.
+    loss_function : torch.nn.Module
+        Loss function to use.
     total_epochs : int, optional
         Number of epochs to train. The default is 500.
     learning_rate : float, optional
@@ -59,12 +61,12 @@ def run_training(root, model, model_name, train_loader, val_loader, total_epochs
         # Perform forward pass with batch
         out = model(batch.x.to(device), batch.edge_index.to(device), batch.batch.to(device)).to(device)
         # Compute loss
-        loss = criterion(out, batch.y).to("cpu")
+        loss = loss_function(out, batch.y).to("cpu")
         # Compute back propagation
         loss.backward() 
         # Update weights with optimizer
         optimizer.step()
-        # COmpute accuracy for training (could be ommited)
+        # Compute accuracy for training (could be ommited)
         accuracy = compute_accuracy(out.argmax(dim=1), batch.y)
         return loss, accuracy
 
@@ -93,7 +95,7 @@ def run_training(root, model, model_name, train_loader, val_loader, total_epochs
             # Perform forward pass with batch
             out = model(batch.x.to(device), batch.edge_index.to(device), batch.batch.to(device)).to(device)
             # Compute validation loss
-            loss = criterion(out, batch.y).to("cpu")
+            loss = loss_function(out, batch.y).to("cpu")
             # Compute validation accuracy
             accuracy = compute_accuracy(out.argmax(dim=1), batch.y)
         return loss, accuracy
@@ -129,12 +131,6 @@ def run_training(root, model, model_name, train_loader, val_loader, total_epochs
             eps=1e-06,
             verbose=True
             )
-    
-    # Define loss function
-    if node_class_frequencies is not None:
-        criterion = torch.nn.CrossEntropyLoss(weight = 1 / torch.tensor(node_class_frequencies, dtype=torch.float).to(device))
-    else:
-        criterion = torch.nn.CrossEntropyLoss()
         
     # Initializes lists for loss and accuracy evolution during training
     losses_train = []

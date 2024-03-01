@@ -30,6 +30,11 @@ def main(root, args):
         model, model_name = get_model(args, dataset_description, device)
         
         if args.train:
+            # Define loss function
+            if dataset_description["edge_class_frequencies"] is not None:
+                loss_function = torch.nn.CrossEntropyLoss(weight = 1 / torch.tensor(dataset_description["edge_class_frequencies"], dtype=torch.float).to(device))
+            else:
+                loss_function = torch.nn.CrossEntropyLoss()
             # Run training
             run_training(
                 root,
@@ -37,13 +42,13 @@ def main(root, args):
                 model_name,
                 train_loader,
                 val_loader,
+                loss_function,
                 total_epochs = args.total_epochs,
                 learning_rate = args.learning_rate,
                 lr_scheduler = args.lr_scheduler,
                 device = device,
-                node_class_frequencies = dataset_description["edge_class_frequencies"],
                 fold = fold
-            )
+                )
 
         if args.test:
             # Run testing
