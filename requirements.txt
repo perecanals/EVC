@@ -1,6 +1,8 @@
 matplotlib
 networkx
 numpy
-sklearn
+scikit-learn
+nibabel
 torch
 torch-geometric
+torch-scatter

@@ -2,6 +2,7 @@ import os
 
 import numpy as np
 
+from extracranial_vessel_labelling.train.lr_schedulers import PolyLRScheduler
 from extracranial_vessel_labelling.train.utils import make_train_plot
 from extracranial_vessel_labelling.utils.metrics import compute_accuracy
 
@@ -121,16 +122,21 @@ def run_training(root, model, model_name, train_loader, val_loader, loss_functio
         weight_decay=1e-03
         )
     if lr_scheduler:
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        #     optimizer, 
+        #     mode='min', 
+        #     factor=0.1, 
+        #     patience=50, 
+        #     threshold=0.001, 
+        #     threshold_mode='rel', 
+        #     eps=1e-06
+        #     )
+        scheduler = PolyLRScheduler(
             optimizer, 
-            mode='min', 
-            factor=0.1, 
-            patience=50, 
-            threshold=0.001, 
-            threshold_mode='rel', 
-            eps=1e-06,
-            verbose=True
-            )
+            initial_lr=learning_rate,
+            max_steps=total_epochs,
+            exponent=0.9
+        )
         
     # Initializes lists for loss and accuracy evolution during training
     losses_train = []
@@ -200,6 +206,7 @@ def run_training(root, model, model_name, train_loader, val_loader, loss_functio
 
         # Prints checkpoint every 100 epochs
         if epoch % 100 == 0:
+            torch.save(model, os.path.join(model_path, "model_latest.pth"))
             if fold is not None:
                 print(f"Epoch: {epoch:03d} (model {model_name}, fold {fold})")
             else:

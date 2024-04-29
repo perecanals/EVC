@@ -64,9 +64,14 @@ def main(root, args):
 if __name__ == "__main__":
     import os, sys
     import argparse
-    sys.path.append("/path/to/EVC")
+    sys.path.append("/home/vhir/github/EVC")
 
     root = os.environ["EVC_root"]
+
+    if not os.path.exists(root):
+        raise FileNotFoundError(f"Path {root} does not exist. Please set the correct path in the environment variable EVC_root.")
+    else:
+        os.makedirs(os.path.join(root, "processed"), exist_ok=True)
 
     # Create argument parser
     parser = argparse.ArgumentParser(description='Train and test the Graph U-Net model.')
@@ -78,7 +83,7 @@ if __name__ == "__main__":
         'It will be overrun if args.folds is not None (size will be (1 - test_size) / args.folds). Default is 0.2.')
     parser.add_argument('-bs', '--batch_size', type=int, default=32, 
         help='Batch size for training and validation. Default is 32.')
-    parser.add_argument('-bnm', '--base_model_name', type=str, default="GraphUNet", 
+    parser.add_argument('-bmn', '--base_model_name', type=str, default="GraphUNet", 
         help='Base model name. Default is GraphUNet.')
     parser.add_argument('-hc', '--hidden_channels', type=int, default=64, 
         help='Number of hidden channels. Default is 64.')
@@ -100,8 +105,21 @@ if __name__ == "__main__":
         help='Whether to test the model. Default is True.')
     parser.add_argument('-tag', '--tag', type=str, default=None,
         help='Additional tag to add to the model name for identification. Default is None.')
+    parser.add_argument("-drop", "--dropout", type=float, default=0.0,
+        help="Dropout rate. Default is 0.0.")
 
     # Parse arguments
     args = parser.parse_args()
+
+    # Set random state
+    import random
+    import numpy as np
+    import torch
+
+    random.seed(args.random_state)
+    np.random.seed(args.random_state)
+    torch.manual_seed(args.random_state)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
     
     main(root, args)

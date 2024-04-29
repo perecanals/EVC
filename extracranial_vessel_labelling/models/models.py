@@ -1,6 +1,7 @@
+import torch_geometric
+import torch.nn as nn
 import torch.nn.functional as F
-
-from torch_geometric.nn import GraphUNet
+from torch_geometric.nn.models import GraphUNet, GAT, GraphSAGE
 
 def get_model(args, dataset_description, device = "cpu"):
     """
@@ -35,7 +36,7 @@ def get_model(args, dataset_description, device = "cpu"):
         String with the model name, where data (train and test) will be 
         in os.path.join(root, "models", model_name).
     """
-    model_name = "{}_bs-{}_hc-{}_d-{}_rs-{}".format(args.base_model_name, args.batch_size, args.hidden_channels, args.depth, args.random_state)
+    model_name = "{}_bs-{}_hc-{}_d-{}_drop-{}_rs-{}".format(args.base_model_name, args.batch_size, args.hidden_channels, args.depth, args.dropout, args.random_state)
     if args.tag is not None:
         model_name += "_{}".format(args.tag)
 
@@ -55,5 +56,24 @@ def get_model(args, dataset_description, device = "cpu"):
             pool_ratios=0.5, 
             sum_res=True, 
             act=F.relu).to(device)
+    elif args.base_model_name == "GAT":
+        model = GAT(
+            in_channels=dataset_description["num_edge_features"], 
+            hidden_channels=args.hidden_channels, 
+            out_channels=dataset_description["num_edge_classes"], 
+            num_layers=args.depth, 
+            v2=True, 
+            dropout=args.dropout,
+            act=F.leaky_relu
+            ).to(device)
+    elif args.base_model_name == "GraphSAGE":
+        model = GraphSAGE(
+            in_channels=dataset_description["num_edge_features"], 
+            hidden_channels=args.hidden_channels, 
+            out_channels=dataset_description["num_edge_classes"], 
+            num_layers=args.depth, 
+            dropout=args.dropout,
+            act=F.leaky_relu
+            ).to(device)
         
     return model, model_name

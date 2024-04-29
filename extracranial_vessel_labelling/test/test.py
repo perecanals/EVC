@@ -35,9 +35,9 @@ def run_testing(root, model_name, test_loader, model = None, device = "cpu", fol
             # Perform inference with single graph
             pred = model(graph.x.to(device), graph.edge_index.to(device)).argmax(dim=1).to("cpu")
         # Get label from graph
-        label = graph.y
+        label = graph.y.to("cpu")
         # Compute testing accuracy
-        acc = compute_accuracy(pred, graph.y)
+        acc = compute_accuracy(pred, label)
         return pred, label, acc
     # Define model path
     model_path = os.path.join(root, "models", model_name)
